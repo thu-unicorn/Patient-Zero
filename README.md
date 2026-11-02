@@ -1,21 +1,18 @@
 # Patient-Zero: Scaling Synthetic Patient Agents to Real-World Distributions without Real Patient Data
 
 <p align="center">
-  <a href="https://aclanthology.org/2026.emnlp-main.1149/">
+  <a href="https://arxiv.org/abs/2509.11078">
     <img src="https://img.shields.io/badge/Publish-EMNLP%202026-4b44ce.svg" alt="EMNLP 2026">
   </a>
-  <a href="https://aclanthology.org/2026.emnlp-main.1149.pdf">
-    <img src="https://img.shields.io/badge/Paper-ACL%20Anthology-b31b1b.svg" alt="Paper on ACL Anthology">
+  <a href="https://arxiv.org/abs/2509.11078">
+    <img src="https://img.shields.io/badge/Paper-arXiv-b31b1b.svg" alt="Paper on arXiv">
   </a>
   <a href="data/">
     <img src="https://img.shields.io/badge/Data-3%2C000%20records-blue.svg" alt="3,000 synthetic patient records">
   </a>
-  <a href="LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
-  </a>
 </p>
 
-> 🎉 **Published at EMNLP 2026!** Explore our release of **3,000 synthetic patient records** across six clinical specialties. The paper is available on [ACL Anthology](https://aclanthology.org/2026.emnlp-main.1149/).
+> 🎉 **Published at EMNLP 2026!** Explore our release of **3,000 synthetic patient records** across six clinical specialties. The paper is available on [arXiv](https://arxiv.org/abs/2509.11078).
 
 **Patient-Zero** is a framework for creating synthetic patient records and interactive patient agents from medical knowledge. It combines structured record synthesis with a cognitive memory system to support diverse patient profiles and consistent clinical conversations, without using real patient records as generation seeds.
 
@@ -31,7 +28,7 @@ This is the official repository for the paper. The current release contains the 
 ## 📰 News
 
 - **[Nov 2026]** 🚀 **Dataset release:** 3,000 synthetic patient records are available as six JSONL files, covering 98 distinct disease labels.
-- **[Oct 2026]** 🎉 **EMNLP 2026:** Patient-Zero is published in the *Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing*. Read the [paper](https://aclanthology.org/2026.emnlp-main.1149/).
+- **[Oct 2026]** 🎉 **EMNLP 2026:** Patient-Zero is published in the *Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing*. Read the [paper](https://arxiv.org/abs/2509.11078).
 
 ## ✨ Key Features
 
@@ -54,81 +51,11 @@ The paper describes a corpus of **60,000 records across six specialties and 98 d
 | Pulmonology | 500 | [Pulmonology.jsonl](data/Pulmonology.jsonl) |
 | **Total** | **3,000** | |
 
-Each specialty contains **500 records**, sampled without replacement from the previously prepared data. The release contains **3,000 records in total**.
-
-<details>
-<summary><strong>Data sources and sampling</strong></summary>
-
-All source paths below are relative to the original project's `outputs/merge/` directory. Cardiology, Gastroenterology, Neurology, and Pulmonology originate from `hierarchical-v2/gpt-4.1-2025-04-14/`. Each was previously sampled to 1,000 records and is now reduced to 500 records from that prepared subset.
-
-General Surgery and Psychiatry are sampled from combined pools of 558 and 592 records, respectively, using these sources:
-
-- v1 records: `hierarchical-v1/gpt-4.1-2025-04-14-old/General_Surgery.jsonl` and `Psychiatry.jsonl`.
-- Additional English records: `hierarchical/gpt-4.1-2025-04-14/en/普通外科.jsonl` and `精神科.jsonl`. The file contents are in English.
-
-The selected records for these two specialties are distributed across sources as follows:
-
-| Specialty | Selected v1 records | Selected additional English records | Released total |
-| :--- | ---: | ---: | ---: |
-| General Surgery | 25 | 475 | 500 |
-| Psychiatry | 29 | 471 | 500 |
-
-For all six specialties, selection of 500 records is stratified by `disease` and `severity`, with proportional quotas allocated using the largest remainder method. Equal remainders are ordered by `(disease, severity)`. Within each stratum, records are ranked by the SHA-256 hash of `seed + NUL + specialty + NUL + record_id`, using seed **42** and the filename stem as the specialty. The earlier 1,000-record sampling for the four v2 specialties also used proportional disease/severity stratification and seed 42.
-
-Sampling is without replacement. Selected records retain their original line order; for the combined pools, v1 records precede additional English records. Record IDs and record content excluding `record_id` and `generated_at` were checked for duplicates. The final subset retains all 98 distinct disease labels from the prepared data.
-
-Original record fields, disease assignments, and text are preserved with LF line endings. No additional clinical filtering was applied during subset preparation.
-
-</details>
-
-## 🛠️ Installation & Usage
-
-Clone the repository:
-
-```bash
-git clone https://github.com/thu-unicorn/Patient-Zero.git
-cd Patient-Zero
-```
-
-Each file in `data/` is UTF-8 JSON Lines, with one patient record per line. You can load all six specialties using the Python standard library:
-
-```python
-import json
-from pathlib import Path
-
-records_by_specialty = {}
-for path in sorted(Path("data").glob("*.jsonl")):
-    with path.open(encoding="utf-8") as handle:
-        records_by_specialty[path.stem] = [json.loads(line) for line in handle]
-
-for specialty, records in records_by_specialty.items():
-    print(f"{specialty}: {len(records)} records")
-
-assert len(records_by_specialty) == 6
-assert all(len(records) == 500 for records in records_by_specialty.values())
-assert sum(map(len, records_by_specialty.values())) == 3000
-```
-
-<details>
-<summary><strong>Record format</strong></summary>
-
-Specialty is identified by the filename. Each record preserves the following source fields:
-
-| Fields | Content |
-| :--- | :--- |
-| `name`, `gender`, `age` | Synthetic patient identity and demographics |
-| `disease`, `severity` | Disease label and severity |
-| `symptom` | Symptoms and duration |
-| `examination_results` | Examination names and generated findings |
-| `medical_history`, `lifestyle_factor`, `vaccination_history`, `family_history` | History and background lists |
-| `profile` | Structured demographic and disease-specific attributes |
-| `record_id`, `generated_at` | Original generation identifier and timestamp |
-
-</details>
+The release contains **500 records per specialty**, for **3,000 records in total**.
 
 ## 🏆 Main Results
 
-The following results are reported in the [paper](https://aclanthology.org/2026.emnlp-main.1149/) and refer to its full experimental setup. The downloadable subset above contains 3,000 records.
+The following results are reported in the [paper](https://arxiv.org/abs/2509.11078) and refer to its full experimental setup. The downloadable subset above contains 3,000 records.
 
 <p align="center">
   <img src="assets/data_distribution.png" alt="Epidemiological manifold coverage and prevalence alignment across demographic, socioeconomic, and lifestyle attributes" width="100%">
@@ -169,34 +96,20 @@ A separate study with **16 medical students** reports positive perceptions of ed
 - **Hierarchical Synthesis:** Removing controlled sampling, deterministic checks, or semantic verification reduces record quality. The full synthesis configuration reaches **95.86 consistency** and **99.55 completeness** in the stage-wise ablation study (Table 4).
 - **Cognitive Memory:** Removing Dual-Track Cognitive Memory reduces logical consistency from **100.00 to 81.36** and increases hallucination rate from **1.82 to 10.45** in the interaction evaluation (Table 2).
 
-## 📄 License
-
-This repository is distributed under the [MIT License](LICENSE).
-
 ## 📜 Citation
 
-Please cite our paper when using Patient-Zero or its data in your research. Citation metadata follows the [ACL Anthology entry](https://aclanthology.org/2026.emnlp-main.1149/).
+Please cite our paper when using Patient-Zero or its data in your research. Citation metadata follows the [arXiv entry](https://arxiv.org/abs/2509.11078).
 
 ```bibtex
-@inproceedings{lai-etal-2026-patient,
-    title = "{Patient-Zero}: Scaling Synthetic Patient Agents to Real-World Distributions without Real Patient Data",
-    author = "Lai, Yunghwei  and
-      Wang, Ziyue  and
-      Ma, Weizhi  and
-      Liu, Yang",
-    editor = "Lee, Hung-Yi  and
-      Dev, Sunipa  and
-      Li, Jessy  and
-      Elliott, Desmond",
-    booktitle = "Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing",
-    month = oct,
-    year = "2026",
-    address = "Budapest, Hungary",
-    publisher = "Association for Computational Linguistics",
-    url = "https://aclanthology.org/2026.emnlp-main.1149/",
-    doi = "10.18653/2026.emnlp-main.1149",
-    pages = "26339--26365",
-    ISBN = "979-8-89176-459-0"
+@misc{lai2025patientzero,
+    title = {{Patient-Zero}: Scaling Synthetic Patient Agents to Real-World Distributions without Real Patient Data},
+    author = {Yunghwei Lai and Ziyue Wang and Weizhi Ma and Yang Liu},
+    year = {2025},
+    eprint = {2509.11078},
+    archivePrefix = {arXiv},
+    primaryClass = {cs.AI},
+    url = {https://arxiv.org/abs/2509.11078},
+    doi = {10.48550/arXiv.2509.11078}
 }
 ```
 
