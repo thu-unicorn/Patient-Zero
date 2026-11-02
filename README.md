@@ -8,14 +8,14 @@
     <img src="https://img.shields.io/badge/Paper-ACL%20Anthology-b31b1b.svg" alt="Paper on ACL Anthology">
   </a>
   <a href="data/">
-    <img src="https://img.shields.io/badge/Data-4%2C064%20records-blue.svg" alt="4,064 synthetic patient records">
+    <img src="https://img.shields.io/badge/Data-3%2C000%20records-blue.svg" alt="3,000 synthetic patient records">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
   </a>
 </p>
 
-> 🎉 **Published at EMNLP 2026!** Explore our release of **4,064 synthetic patient records** across six clinical specialties. The paper is available on [ACL Anthology](https://aclanthology.org/2026.emnlp-main.1149/).
+> 🎉 **Published at EMNLP 2026!** Explore our release of **3,000 synthetic patient records** across six clinical specialties. The paper is available on [ACL Anthology](https://aclanthology.org/2026.emnlp-main.1149/).
 
 **Patient-Zero** is a framework for creating synthetic patient records and interactive patient agents from medical knowledge. It combines structured record synthesis with a cognitive memory system to support diverse patient profiles and consistent clinical conversations, without using real patient records as generation seeds.
 
@@ -30,7 +30,7 @@ This is the official repository for the paper. The current release contains the 
 
 ## 📰 News
 
-- **[Nov 2026]** 🚀 **Dataset release:** 4,064 synthetic patient records are available as six JSONL files, covering 98 distinct disease labels.
+- **[Nov 2026]** 🚀 **Dataset release:** 3,000 synthetic patient records are available as six JSONL files, covering 98 distinct disease labels.
 - **[Oct 2026]** 🎉 **EMNLP 2026:** Patient-Zero is published in the *Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing*. Read the [paper](https://aclanthology.org/2026.emnlp-main.1149/).
 
 ## ✨ Key Features
@@ -42,26 +42,40 @@ This is the official repository for the paper. The current release contains the 
 
 ## 📦 Dataset
 
-The paper describes a corpus of **60,000 records across six specialties and 98 disease types**. This repository provides a **4,064-record subset** generated with GPT-4.1 (`gpt-4.1-2025-04-14`).
+The paper describes a corpus of **60,000 records across six specialties and 98 disease types**. This repository provides a **3,000-record subset** generated with GPT-4.1 (`gpt-4.1-2025-04-14`).
 
 | Specialty | Records | Download |
 | :--- | ---: | :--- |
-| Cardiology | 1,000 | [Cardiology.jsonl](data/Cardiology.jsonl) |
-| Gastroenterology | 1,000 | [Gastroenterology.jsonl](data/Gastroenterology.jsonl) |
-| General Surgery | 30 | [General_Surgery.jsonl](data/General_Surgery.jsonl) |
-| Neurology | 1,000 | [Neurology.jsonl](data/Neurology.jsonl) |
-| Psychiatry | 34 | [Psychiatry.jsonl](data/Psychiatry.jsonl) |
-| Pulmonology | 1,000 | [Pulmonology.jsonl](data/Pulmonology.jsonl) |
-| **Total** | **4,064** | |
+| Cardiology | 500 | [Cardiology.jsonl](data/Cardiology.jsonl) |
+| Gastroenterology | 500 | [Gastroenterology.jsonl](data/Gastroenterology.jsonl) |
+| General Surgery | 500 | [General_Surgery.jsonl](data/General_Surgery.jsonl) |
+| Neurology | 500 | [Neurology.jsonl](data/Neurology.jsonl) |
+| Psychiatry | 500 | [Psychiatry.jsonl](data/Psychiatry.jsonl) |
+| Pulmonology | 500 | [Pulmonology.jsonl](data/Pulmonology.jsonl) |
+| **Total** | **3,000** | |
 
-The release target is 1,000 records per specialty. General Surgery and Psychiatry are absent from the selected v2 source; this release includes all **30** and **34** available v1 records, respectively. These two specialties remain **970** and **966** records short of that target. All records are included without replacement.
+Each specialty contains **500 records**, sampled without replacement from the previously prepared data. The release contains **3,000 records in total**.
 
 <details>
 <summary><strong>Data sources and sampling</strong></summary>
 
-The four 1,000-record specialties come from `hierarchical-v2/gpt-4.1-2025-04-14/`. General Surgery and Psychiatry come from `hierarchical-v1/gpt-4.1-2025-04-14-old/`. Both paths are relative to the original project's `outputs/merge/` directory.
+All source paths below are relative to the original project's `outputs/merge/` directory. Cardiology, Gastroenterology, Neurology, and Pulmonology originate from `hierarchical-v2/gpt-4.1-2025-04-14/`. Each was previously sampled to 1,000 records and is now reduced to 500 records from that prepared subset.
 
-Selection is stratified by `disease` and `severity`, with proportional quotas allocated using the largest remainder method. Within each stratum, records are ranked by the SHA-256 hash of `seed + NUL + specialty + NUL + record_id`, using seed **42**. Output records retain source line order.
+General Surgery and Psychiatry are sampled from combined pools of 558 and 592 records, respectively, using these sources:
+
+- v1 records: `hierarchical-v1/gpt-4.1-2025-04-14-old/General_Surgery.jsonl` and `Psychiatry.jsonl`.
+- Additional English records: `hierarchical/gpt-4.1-2025-04-14/en/普通外科.jsonl` and `精神科.jsonl`. The file contents are in English.
+
+The selected records for these two specialties are distributed across sources as follows:
+
+| Specialty | Selected v1 records | Selected additional English records | Released total |
+| :--- | ---: | ---: | ---: |
+| General Surgery | 25 | 475 | 500 |
+| Psychiatry | 29 | 471 | 500 |
+
+For all six specialties, selection of 500 records is stratified by `disease` and `severity`, with proportional quotas allocated using the largest remainder method. Equal remainders are ordered by `(disease, severity)`. Within each stratum, records are ranked by the SHA-256 hash of `seed + NUL + specialty + NUL + record_id`, using seed **42** and the filename stem as the specialty. The earlier 1,000-record sampling for the four v2 specialties also used proportional disease/severity stratification and seed 42.
+
+Sampling is without replacement. Selected records retain their original line order; for the combined pools, v1 records precede additional English records. Record IDs and record content excluding `record_id` and `generated_at` were checked for duplicates. The final subset retains all 98 distinct disease labels from the prepared data.
 
 Original record fields, disease assignments, and text are preserved with LF line endings. No additional clinical filtering was applied during subset preparation.
 
@@ -90,7 +104,9 @@ for path in sorted(Path("data").glob("*.jsonl")):
 for specialty, records in records_by_specialty.items():
     print(f"{specialty}: {len(records)} records")
 
-assert sum(map(len, records_by_specialty.values())) == 4064
+assert len(records_by_specialty) == 6
+assert all(len(records) == 500 for records in records_by_specialty.values())
+assert sum(map(len, records_by_specialty.values())) == 3000
 ```
 
 <details>
@@ -112,7 +128,7 @@ Specialty is identified by the filename. Each record preserves the following sou
 
 ## 🏆 Main Results
 
-The following results are reported in the [paper](https://aclanthology.org/2026.emnlp-main.1149/) and refer to its full experimental setup. The downloadable subset above contains 4,064 records.
+The following results are reported in the [paper](https://aclanthology.org/2026.emnlp-main.1149/) and refer to its full experimental setup. The downloadable subset above contains 3,000 records.
 
 <p align="center">
   <img src="assets/data_distribution.png" alt="Epidemiological manifold coverage and prevalence alignment across demographic, socioeconomic, and lifestyle attributes" width="100%">
