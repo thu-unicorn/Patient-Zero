@@ -1,73 +1,105 @@
-# Patient-Zero
+# Patient-Zero: Scaling Synthetic Patient Agents to Real-World Distributions without Real Patient Data
 
-**Patient-Zero: Scaling Synthetic Patient Agents to Real-World Distributions without Real Patient Data**
+<p align="center">
+  <a href="https://aclanthology.org/2026.emnlp-main.1149/">
+    <img src="https://img.shields.io/badge/Publish-EMNLP%202026-4b44ce.svg" alt="EMNLP 2026">
+  </a>
+  <a href="https://aclanthology.org/2026.emnlp-main.1149.pdf">
+    <img src="https://img.shields.io/badge/Paper-ACL%20Anthology-b31b1b.svg" alt="Paper on ACL Anthology">
+  </a>
+  <a href="data/">
+    <img src="https://img.shields.io/badge/Data-4%2C064%20records-blue.svg" alt="4,064 synthetic patient records">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+  </a>
+</p>
 
-**EMNLP 2026** · [Paper](https://aclanthology.org/2026.emnlp-main.1149/) · [PDF](https://aclanthology.org/2026.emnlp-main.1149.pdf) · [Dataset](#released-data) · [Citation](#citation)
+> 🎉 **Published at EMNLP 2026!** Explore our release of **4,064 synthetic patient records** across six clinical specialties. The paper is available on [ACL Anthology](https://aclanthology.org/2026.emnlp-main.1149/).
 
-Yunghwei Lai, Ziyue Wang, Weizhi Ma, and Yang Liu
+**Patient-Zero** is a framework for creating synthetic patient records and interactive patient agents from medical knowledge. It combines structured record synthesis with a cognitive memory system to support diverse patient profiles and consistent clinical conversations, without using real patient records as generation seeds.
 
-Tsinghua University
+**Yunghwei Lai, Ziyue Wang, Weizhi Ma, and Yang Liu** · Tsinghua University
 
-Official repository for the paper published in the *Proceedings of the 2026
-Conference on Empirical Methods in Natural Language Processing*.
+This is the official repository for the paper. The current release contains the patient-record subset in [`data/`](data/).
 
-## Overview
+<p align="center">
+  <img src="assets/method.png" alt="Patient-Zero hierarchical synthesis: disease outline standardization, epidemiological attribute permutation, symptom progression, and granular clinical expansion" width="100%">
+</p>
+<p align="center"><em>Medically-Aligned Hierarchical Synthesis with a global verify-and-regenerate mechanism.</em></p>
 
-Patient-Zero builds synthetic patient records from medical knowledge and uses
-those records to support interactive patient simulation. Its generation process
-starts from medical knowledge and demographic priors, without using real patient
-records as generation seeds.
+## 📰 News
 
-The framework has two main components:
+- **[Nov 2026]** 🚀 **Dataset release:** 4,064 synthetic patient records are available as six JSONL files, covering 98 distinct disease labels.
+- **[Oct 2026]** 🎉 **EMNLP 2026:** Patient-Zero is published in the *Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing*. Read the [paper](https://aclanthology.org/2026.emnlp-main.1149/).
 
-- **Medically-Aligned Hierarchical Synthesis** combines controlled attribute
-  sampling, structured generation, deterministic checks, and semantic
-  verification to construct patient profiles, symptoms, and examination results.
-- **Dual-Track Cognitive Memory** combines persistent patient information with
-  evolving interaction memory to support coherent responses during clinical
-  conversations.
+## ✨ Key Features
 
-The paper evaluates record quality, patient-agent interaction, medical education,
-and downstream medical reasoning. The study describes 60,000 records across six
-clinical specialties and 98 disease types; see the [paper](https://aclanthology.org/2026.emnlp-main.1149/)
-for the experimental setup and results.
+- **Generation from Medical Knowledge:** Builds patient records from medical knowledge and demographic priors, enabling controlled variation in patient characteristics.
+- **Medically-Aligned Hierarchical Synthesis:** Combines attribute sampling, structured generation, deterministic clinical checks, and semantic verification to construct profiles, symptoms, and examination findings.
+- **Dual-Track Cognitive Memory:** Maintains persistent patient information alongside evolving interaction memory to support factual consistency and persona adherence during clinical inquiries.
+- **Evaluation across Multiple Settings:** The paper studies record quality, patient-agent interaction, physician assessments, medical education, and downstream medical reasoning.
 
-The current repository release provides **4,064 synthetic patient records** and a
-reproducible subset preparation script. These GPT-4.1 (`gpt-4.1-2025-04-14`)
-records cover **98 distinct disease labels** across six specialties. The counts
-below describe the files available in this repository.
+## 📦 Dataset
 
-## Released data
+The paper describes a corpus of **60,000 records across six specialties and 98 disease types**. This repository provides a **4,064-record subset** generated with GPT-4.1 (`gpt-4.1-2025-04-14`).
 
-| Specialty | File | Available in selected source | Released | Source version |
-| --- | --- | ---: | ---: | --- |
-| Cardiology | [Cardiology.jsonl](data/Cardiology.jsonl) | 5,016 | 1,000 | v2 |
-| Gastroenterology | [Gastroenterology.jsonl](data/Gastroenterology.jsonl) | 4,488 | 1,000 | v2 |
-| General Surgery | [General_Surgery.jsonl](data/General_Surgery.jsonl) | 30 | 30 | v1-old |
-| Neurology | [Neurology.jsonl](data/Neurology.jsonl) | 4,979 | 1,000 | v2 |
-| Psychiatry | [Psychiatry.jsonl](data/Psychiatry.jsonl) | 34 | 34 | v1-old |
-| Pulmonology | [Pulmonology.jsonl](data/Pulmonology.jsonl) | 4,999 | 1,000 | v2 |
-| **Total** | | **19,546** | **4,064** | |
+| Specialty | Records | Download |
+| :--- | ---: | :--- |
+| Cardiology | 1,000 | [Cardiology.jsonl](data/Cardiology.jsonl) |
+| Gastroenterology | 1,000 | [Gastroenterology.jsonl](data/Gastroenterology.jsonl) |
+| General Surgery | 30 | [General_Surgery.jsonl](data/General_Surgery.jsonl) |
+| Neurology | 1,000 | [Neurology.jsonl](data/Neurology.jsonl) |
+| Psychiatry | 34 | [Psychiatry.jsonl](data/Psychiatry.jsonl) |
+| Pulmonology | 1,000 | [Pulmonology.jsonl](data/Pulmonology.jsonl) |
+| **Total** | **4,064** | |
 
-The target is 1,000 records per specialty. General Surgery and Psychiatry are
-absent from the selected v2 source, so this release includes all 30 and 34 records
-available in the v1 fallback. They remain **970 and 966 records short** of the
-target. Records are sampled without replacement; none are duplicated to fill
-these gaps.
+The release target is 1,000 records per specialty. General Surgery and Psychiatry are absent from the selected v2 source; this release includes all **30** and **34** available v1 records, respectively. These two specialties remain **970** and **966** records short of that target. All records are included without replacement.
 
-Source directories, relative to the original project's `outputs/merge/`:
+<details>
+<summary><strong>Data sources and sampling</strong></summary>
 
-- Primary: `hierarchical-v2/gpt-4.1-2025-04-14/`
-- Fallback: `hierarchical-v1/gpt-4.1-2025-04-14-old/`
+The four 1,000-record specialties come from `hierarchical-v2/gpt-4.1-2025-04-14/`. General Surgery and Psychiatry come from `hierarchical-v1/gpt-4.1-2025-04-14-old/`. Both paths are relative to the original project's `outputs/merge/` directory.
 
-## Format and loading
+Selection is stratified by `disease` and `severity`, with proportional quotas allocated using the largest remainder method. Within each stratum, records are ranked by the SHA-256 hash of `seed + NUL + specialty + NUL + record_id`, using seed **42**. Output records retain source line order.
 
-Each specialty file is UTF-8 JSON Lines, with one complete record per line.
-All original fields and their values are preserved. Specialty is identified by
-the filename; it is not added to the record.
+Original record fields, disease assignments, and text are preserved with LF line endings. No additional clinical filtering was applied during subset preparation.
+
+</details>
+
+## 🛠️ Installation & Usage
+
+Clone the repository:
+
+```bash
+git clone https://github.com/thu-unicorn/Patient-Zero.git
+cd Patient-Zero
+```
+
+Each file in `data/` is UTF-8 JSON Lines, with one patient record per line. You can load all six specialties using the Python standard library:
+
+```python
+import json
+from pathlib import Path
+
+records_by_specialty = {}
+for path in sorted(Path("data").glob("*.jsonl")):
+    with path.open(encoding="utf-8") as handle:
+        records_by_specialty[path.stem] = [json.loads(line) for line in handle]
+
+for specialty, records in records_by_specialty.items():
+    print(f"{specialty}: {len(records)} records")
+
+assert sum(map(len, records_by_specialty.values())) == 4064
+```
+
+<details>
+<summary><strong>Record format</strong></summary>
+
+Specialty is identified by the filename. Each record preserves the following source fields:
 
 | Fields | Content |
-| --- | --- |
+| :--- | :--- |
 | `name`, `gender`, `age` | Synthetic patient identity and demographics |
 | `disease`, `severity` | Disease label and severity |
 | `symptom` | Symptoms and duration |
@@ -76,92 +108,58 @@ the filename; it is not added to the record.
 | `profile` | Structured demographic and disease-specific attributes |
 | `record_id`, `generated_at` | Original generation identifier and timestamp |
 
-Clone the repository and enter its directory:
+</details>
 
-```bash
-git clone https://github.com/thu-unicorn/Patient-Zero.git
-cd Patient-Zero
-```
+## 🏆 Main Results
 
-Load the patient records from the repository root using Python (standard library
-only):
+The following results are reported in the [paper](https://aclanthology.org/2026.emnlp-main.1149/) and refer to its full experimental setup. The downloadable subset above contains 4,064 records.
 
-```python
-import json
-from pathlib import Path
+<p align="center">
+  <img src="assets/data_distribution.png" alt="Epidemiological manifold coverage and prevalence alignment across demographic, socioeconomic, and lifestyle attributes" width="100%">
+</p>
+<p align="center"><em>Distribution analysis from the paper: epidemiological coverage and attribute-level prevalence alignment.</em></p>
 
-data_dir = Path("data")
-manifest = json.loads((data_dir / "manifest.json").read_text(encoding="utf-8"))
-records_by_specialty = {}
-for specialty, metadata in manifest["departments"].items():
-    with (data_dir / metadata["file"]).open(encoding="utf-8") as handle:
-        records_by_specialty[specialty] = [json.loads(line) for line in handle]
+**Downstream medical reasoning (Table 3).** Training with Patient-Zero data improves Qwen3-8B on both evaluated benchmarks.
 
-assert sum(map(len, records_by_specialty.values())) == 4064
-```
+| Model | MedQA (%) | MMLU (%) |
+| :--- | :---: | :---: |
+| Qwen3-8B (Base) | 61.00 | 69.50 |
+| Qwen3-8B + Patient-Zero | **85.00** | **83.00** |
 
-These are generated research records. The source disease assignments and record
-text are preserved; this release does not apply additional clinical filtering.
+**Patient-agent interaction (Table 2).** The memory system supports consistency and resistance to misleading suggestions during multi-turn clinical inquiries.
 
-## Sampling and provenance
+| Metric | Without Dual-Track Cognitive Memory | Patient-Zero |
+| :--- | :---: | :---: |
+| Logical consistency ↑ | 81.36 | **100.00** |
+| Factual recall ↑ | 7.88 | **33.27** |
+| Persona alignment ↑ | 61.10 | **83.70** |
+| Stylistic stability ↑ | 46.61 | **75.50** |
+| Hallucination rate ↓ | 10.45 | **1.82** |
+| Inducibility resistance ↑ | 69.17 | **97.22** |
 
-Primary data is used first. Fallback data is used only when a specialty is absent
-or below the target. Within each source and specialty, records are stratified by
-`disease` and `severity`. Proportional quotas are allocated with the largest
-remainder method; ties are ordered by disease and severity.
+## 👥 Human Evaluation
 
-Within each stratum, selection uses the ascending SHA-256 rank of
-`seed + NUL + specialty + NUL + record_id`, with seed **42**. Output records retain
-source line order, with primary records before fallback records. This selection
-is deterministic. Original JSON text is retained with LF line endings.
+In the paper's blinded physician evaluation, Patient-Zero receives mean ratings of **3.85/5 for diversity**, **3.90/5 for consistency**, and **4.00/5 for completeness** (Table 14).
 
-- [manifest.json](data/manifest.json): source and release counts, shortages,
-  per-stratum counts, source hashes, and output hashes.
-- [provenance.jsonl](data/provenance.jsonl): source version, filename, line number,
-  and `record_id` for each released record. This is metadata, not additional
-  patient records.
-- [SHA256SUMS](data/SHA256SUMS): checksums for the six specialty files and the two
-  metadata files.
+<p align="center">
+  <img src="assets/turing_test.png" alt="Physician evaluation of human-versus-AI record discrimination and ratings for linguistic quality, diversity, consistency, and completeness" width="680">
+</p>
+<p align="center"><em>Human evaluation: record-source discrimination and expert ratings of data quality.</em></p>
 
-## Reproduction
+A separate study with **16 medical students** reports positive perceptions of educational usefulness, including **6.31/7** for providing a low-risk practice environment and **6.06/7** for teaching-tool utility. These ratings measure perceived usability and educational value.
 
-The [preparation script](scripts/prepare_release.py) requires Python 3.9 or newer
-and only the standard library. The full original source files are needed to
-reproduce selection; they are not included in this subset.
+## 🔬 Ablation Studies
 
-From the repository root, replace `/path/to/Patient-zero` with the source project
-location and use a new or empty output directory:
+- **Hierarchical Synthesis:** Removing controlled sampling, deterministic checks, or semantic verification reduces record quality. The full synthesis configuration reaches **95.86 consistency** and **99.55 completeness** in the stage-wise ablation study (Table 4).
+- **Cognitive Memory:** Removing Dual-Track Cognitive Memory reduces logical consistency from **100.00 to 81.36** and increases hallucination rate from **1.82 to 10.45** in the interaction evaluation (Table 2).
 
-```bash
-SOURCE_ROOT=/path/to/Patient-zero/outputs/merge
-python scripts/prepare_release.py \
-  --source-dir "$SOURCE_ROOT/hierarchical-v2/gpt-4.1-2025-04-14" \
-  --source-label hierarchical-v2/gpt-4.1-2025-04-14 \
-  --fallback-dir "$SOURCE_ROOT/hierarchical-v1/gpt-4.1-2025-04-14-old" \
-  --fallback-label hierarchical-v1/gpt-4.1-2025-04-14-old \
-  --output-dir reproduced_data \
-  --per-department 1000 --seed 42 --allow-shortfall
-```
+## 📄 License
 
-`--allow-shortfall` explicitly permits the two documented shortages. Without it,
-the script fails before writing any output when fewer than 1,000 records are
-available. Existing nonempty output directories are never overwritten.
+This repository is distributed under the [MIT License](LICENSE).
 
-Verify the released files:
+## 📜 Citation
 
-```bash
-cd data
-sha256sum -c SHA256SUMS
-```
-
-## License
-
-See the repository's [MIT license](LICENSE).
-
-## Citation
-
-If you use Patient-Zero or these data in your research, please cite the paper.
-The bibliographic details below follow the [ACL Anthology entry](https://aclanthology.org/2026.emnlp-main.1149/).
+Please cite our paper when using Patient-Zero or its data in your research. Citation metadata follows the [ACL Anthology entry](https://aclanthology.org/2026.emnlp-main.1149/).
 
 ```bibtex
 @inproceedings{lai-etal-2026-patient,
@@ -186,7 +184,6 @@ The bibliographic details below follow the [ACL Anthology entry](https://aclanth
 }
 ```
 
-## Contact
+## 💬 Contact & Questions
 
-For questions about the paper or dataset, please contact **Yunghwei Lai** at
-[laiyunghwei@gmail.com](mailto:laiyunghwei@gmail.com).
+For questions or collaborations, please contact **Yunghwei Lai** at [**laiyunghwei@gmail.com**](mailto:laiyunghwei@gmail.com). You can also [open an issue](https://github.com/thu-unicorn/Patient-Zero/issues) to discuss the paper or dataset.
