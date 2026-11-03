@@ -98,18 +98,28 @@ A separate study with **16 medical students** reports positive perceptions of ed
 
 ## 📜 Citation
 
-Please cite our paper when using Patient-Zero or its data in your research. Citation metadata follows the [arXiv entry](https://arxiv.org/abs/2509.11078).
+Please cite our paper when using Patient-Zero or its data in your research. Citation metadata follows the [ACL Anthology entry](https://aclanthology.org/2026.emnlp-main.1149/).
 
 ```bibtex
-@misc{lai2025patientzero,
-    title = {{Patient-Zero}: Scaling Synthetic Patient Agents to Real-World Distributions without Real Patient Data},
-    author = {Yunghwei Lai and Ziyue Wang and Weizhi Ma and Yang Liu},
-    year = {2025},
-    eprint = {2509.11078},
-    archivePrefix = {arXiv},
-    primaryClass = {cs.AI},
-    url = {https://arxiv.org/abs/2509.11078},
-    doi = {10.48550/arXiv.2509.11078}
+@inproceedings{lai-etal-2026-patient,
+    title = "{Patient-Zero}: Scaling Synthetic Patient Agents to Real-World Distributions without Real Patient Data",
+    author = "Lai, Yunghwei  and
+      Wang, Ziyue  and
+      Ma, Weizhi  and
+      Liu, Yang",
+    editor = "Lee, Hung-Yi  and
+      Dev, Sunipa  and
+      Li, Jessy  and
+      Elliott, Desmond",
+    booktitle = "Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing",
+    month = oct,
+    year = "2026",
+    address = "Budapest, Hungary",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2026.emnlp-main.1149/",
+    doi = "10.18653/2026.emnlp-main.1149",
+    pages = "26339--26365",
+    ISBN = "979-8-89176-459-0"
 }
 ```
 
